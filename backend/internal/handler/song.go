@@ -55,3 +55,15 @@ func (h *SongHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(songs)
 }
+
+func (h *SongHandler) GetByID(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Path[len("/songs/"):]
+	song, err := h.store.GetByID(id)
+	if err != nil {
+		http.Error(w, "failed to find a song with that ID", http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(song)
+}
