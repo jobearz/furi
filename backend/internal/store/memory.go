@@ -11,13 +11,15 @@ import (
 )
 
 type MemoryStore struct {
-	songs map[string]model.Song
-	mu    sync.RWMutex
+	songs    map[string]model.Song
+	sections map[string]model.Section
+	mu       sync.RWMutex
 }
 
 func NewMemoryStore() *MemoryStore {
 	return &MemoryStore{
-		songs: make(map[string]model.Song),
+		songs:    make(map[string]model.Song),
+		sections: make(map[string]model.Section),
 	}
 }
 
@@ -52,4 +54,41 @@ func (s *MemoryStore) GetByID(id string) (model.Song, error) {
 		return model.Song{}, fmt.Errorf("Song with id %s not found", id)
 	}
 	return song, nil
+}
+
+func (s *MemoryStore) CreateSection(section model.Section) (model.Section, error) {
+	// mutex lock before writing to the map
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	section.ID = uuid.New().String()
+	section.CreatedAt = time.Now()
+	s.sections[section.ID] = section
+	return section, nil
+}
+
+func (s *MemoryStore) GetSectionsBySongID(songID string) ([]model.Section, error) {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+
+	sections := make([]model.Section, 0)
+	for _, section := range s.sections {
+		if section.SongID == songID {
+			sections = append(sections, section)
+		}
+	}
+	return sections, nil
+}
+
+func (s *MemoryStore) UpdateSectionMastery(id string, status model.MasteryStatus) (model.Section, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	section, ok := s.sections[id]
+	if !ok {
+		return model.Section{}, fmt.Errorf("Section with id %s not found", id)
+	}
+	section.Mastery = status
+	s.sections[id] = section
+	return section, nil
 }

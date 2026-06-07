@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/jobearz/furi/internal/handler"
 	"github.com/jobearz/furi/internal/store"
@@ -11,6 +12,7 @@ import (
 func main() {
 	memStore := store.NewMemoryStore()
 	songHandler := handler.NewSongHandler(memStore)
+	sectionHandler := handler.NewSectionHandler(memStore)
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/health", handler.Health)
@@ -25,11 +27,26 @@ func main() {
 		}
 	})
 	mux.HandleFunc("/songs/", func(w http.ResponseWriter, r *http.Request) {
-		// if path is exactly /songs/ with nothing after, redirect to /songs
 		if r.URL.Path == "/songs/" {
 			http.Redirect(w, r, "/songs", http.StatusMovedPermanently)
 			return
 		}
+
+		path := r.URL.Path
+		if strings.Contains(path, "/sections") {
+			switch r.Method {
+			case http.MethodPost:
+				sectionHandler.Create(w, r)
+			case http.MethodGet:
+				sectionHandler.GetSectionsBySongID(w, r)
+			case http.MethodPatch:
+				sectionHandler.UpdateSectionMastery(w, r)
+			default:
+				http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
+			}
+			return
+		}
+
 		switch r.Method {
 		case http.MethodGet:
 			songHandler.GetByID(w, r)
