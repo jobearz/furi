@@ -13,6 +13,7 @@ import (
 type MemoryStore struct {
 	songs    map[string]model.Song
 	sections map[string]model.Section
+	sessions map[string]model.Session
 	mu       sync.RWMutex
 }
 
@@ -20,6 +21,7 @@ func NewMemoryStore() *MemoryStore {
 	return &MemoryStore{
 		songs:    make(map[string]model.Song),
 		sections: make(map[string]model.Section),
+		sessions: make(map[string]model.Session),
 	}
 }
 
@@ -91,4 +93,28 @@ func (s *MemoryStore) UpdateSectionMastery(id string, status model.MasteryStatus
 	section.Mastery = status
 	s.sections[id] = section
 	return section, nil
+}
+
+func (s *MemoryStore) CreateSession(session model.Session) (model.Session, error) {
+	// mutex lock before writing to the map
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	session.ID = uuid.New().String()
+	session.CreatedAt = time.Now()
+	s.sessions[session.ID] = session
+	return session, nil
+}
+
+func (s *MemoryStore) GetSessionsBySongID(songID string) ([]model.Session, error) {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+
+	sessions := make([]model.Session, 0)
+	for _, session := range s.sessions {
+		if session.SongID == songID {
+			sessions = append(sessions, session)
+		}
+	}
+	return sessions, nil
 }

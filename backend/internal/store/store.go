@@ -9,4 +9,6 @@ type SongStore interface {
 	CreateSection(section model.Section) (model.Section, error)
 	GetSectionsBySongID(songID string) ([]model.Section, error)
 	UpdateSectionMastery(id string, status model.MasteryStatus) (model.Section, error)
+	CreateSession(session model.Session) (model.Session, error)
+	GetSessionsBySongID(songID string) ([]model.Session, error)
 }

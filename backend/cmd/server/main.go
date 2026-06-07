@@ -13,6 +13,7 @@ func main() {
 	memStore := store.NewMemoryStore()
 	songHandler := handler.NewSongHandler(memStore)
 	sectionHandler := handler.NewSectionHandler(memStore)
+	sessionHandler := handler.NewSessionHandler(memStore)
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/health", handler.Health)
@@ -41,6 +42,17 @@ func main() {
 				sectionHandler.GetSectionsBySongID(w, r)
 			case http.MethodPatch:
 				sectionHandler.UpdateSectionMastery(w, r)
+			default:
+				http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
+			}
+			return
+		}
+		if strings.Contains(path, "/sessions") {
+			switch r.Method {
+			case http.MethodPost:
+				sessionHandler.Create(w, r)
+			case http.MethodGet:
+				sessionHandler.GetSessionsBySongID(w, r)
 			default:
 				http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 			}
