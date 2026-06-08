@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/jobearz/furi/internal/handler"
+	"github.com/jobearz/furi/internal/middleware"
 	"github.com/jobearz/furi/internal/store"
 )
 
@@ -14,10 +15,13 @@ func main() {
 	songHandler := handler.NewSongHandler(memStore)
 	sectionHandler := handler.NewSectionHandler(memStore)
 	sessionHandler := handler.NewSessionHandler(memStore)
+	authHandler := handler.NewAuthorizationHandler(memStore)
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/health", handler.Health)
-	mux.HandleFunc("/songs", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/auth/register", authHandler.Register)
+	mux.HandleFunc("/auth/login", authHandler.Login)
+	mux.HandleFunc("/songs", middleware.RequireAuth(func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodPost:
 			songHandler.Create(w, r)
@@ -26,8 +30,8 @@ func main() {
 		default:
 			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		}
-	})
-	mux.HandleFunc("/songs/", func(w http.ResponseWriter, r *http.Request) {
+	}))
+	mux.HandleFunc("/songs/", middleware.RequireAuth(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/songs/" {
 			http.Redirect(w, r, "/songs", http.StatusMovedPermanently)
 			return
@@ -65,8 +69,7 @@ func main() {
 		default:
 			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		}
-	})
-
+	}))
 	log.Println("Server running on :8080")
 	log.Fatal(http.ListenAndServe(":8080", mux))
 }
