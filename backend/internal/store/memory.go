@@ -14,6 +14,7 @@ type MemoryStore struct {
 	songs    map[string]model.Song
 	sections map[string]model.Section
 	sessions map[string]model.Session
+	users    map[string]model.User
 	mu       sync.RWMutex
 }
 
@@ -22,6 +23,7 @@ func NewMemoryStore() *MemoryStore {
 		songs:    make(map[string]model.Song),
 		sections: make(map[string]model.Section),
 		sessions: make(map[string]model.Session),
+		users:    make(map[string]model.User),
 	}
 }
 
@@ -117,4 +119,26 @@ func (s *MemoryStore) GetSessionsBySongID(songID string) ([]model.Session, error
 		}
 	}
 	return sessions, nil
+}
+
+func (s *MemoryStore) CreateUser(user model.User) (model.User, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	user.ID = uuid.New().String()
+	user.CreatedAt = time.Now()
+	s.users[user.ID] = user
+	return user, nil
+}
+
+func (s *MemoryStore) GetUserByEmail(email string) (model.User, error) {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+
+	for _, user := range s.users {
+		if user.Email == email {
+			return user, nil
+		}
+	}
+	return model.User{}, fmt.Errorf("user with email %s not found", email)
 }
