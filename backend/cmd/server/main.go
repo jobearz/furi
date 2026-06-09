@@ -5,17 +5,24 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/jobearz/furi/db"
 	"github.com/jobearz/furi/internal/handler"
 	"github.com/jobearz/furi/internal/middleware"
 	"github.com/jobearz/furi/internal/store"
 )
 
 func main() {
-	memStore := store.NewMemoryStore()
-	songHandler := handler.NewSongHandler(memStore)
-	sectionHandler := handler.NewSectionHandler(memStore)
-	sessionHandler := handler.NewSessionHandler(memStore)
-	authHandler := handler.NewAuthorizationHandler(memStore)
+	database, err := db.Connect()
+	if err != nil {
+		log.Fatal("failed to connect to database:", err)
+	}
+	defer database.Close()
+
+	pgStore := store.NewPostgresStore(database)
+	songHandler := handler.NewSongHandler(pgStore)
+	sectionHandler := handler.NewSectionHandler(pgStore)
+	sessionHandler := handler.NewSessionHandler(pgStore)
+	authHandler := handler.NewAuthorizationHandler(pgStore)
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/health", handler.Health)
