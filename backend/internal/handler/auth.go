@@ -56,7 +56,8 @@ func (h *AuthorizationHandler) Register(w http.ResponseWriter, r *http.Request) 
 
 	newUser, err := h.store.CreateUser(user)
 	if err != nil {
-		http.Error(w, "failed to create new user", http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 	newUser.Email = email
 	newUser.Password = hashedPassword
