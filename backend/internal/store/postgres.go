@@ -88,7 +88,7 @@ func (s *PostgresStore) GetSectionsBySongID(songID string) ([]model.Section, err
 	}
 	defer rows.Close()
 
-	var sections []model.Section
+	sections := make([]model.Section, 0)
 	for rows.Next() {
 		var section model.Section
 		err := rows.Scan(&section.ID, &section.SongID, &section.Name, &section.StartTime, &section.EndTime, &section.Mastery, &section.Notes, &section.CreatedAt)
