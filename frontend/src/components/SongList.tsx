@@ -32,7 +32,6 @@ export default function SongList() {
           <p>{song.title} - {song.artist}</p>
         </div>
       ))}
-      // add song form
       <input
         type="text"
         value={title}

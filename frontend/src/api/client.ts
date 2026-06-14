@@ -1,4 +1,4 @@
-import type { Song } from "../types"
+import type { Song, Section } from "../types"
 
 const BASE_URL = 'http://localhost:8080'
 
@@ -48,6 +48,14 @@ export async function getSongs(): Promise<Song[]> {
     return response.json()
 }
 
+export async function getSong(id: string): Promise<Song> {
+    const response = await fetch(`${BASE_URL}/songs/${id}`, {
+        headers: authHeaders()
+    })
+    if (!response.ok) throw new Error('failed to fetch song')
+    return response.json()
+}
+
 export async function createSong(title: string, artist: string, url: string): Promise<Song> {
     const response = await fetch(`${BASE_URL}/songs`, {
         method: 'POST',
@@ -56,6 +64,34 @@ export async function createSong(title: string, artist: string, url: string): Pr
     })
     if (!response.ok) {
         throw new Error('failed to create song')
+    }
+    return response.json()
+}
+
+export async function getSections(songId: string): Promise<Section[]> {
+    const response = await fetch(`${BASE_URL}/songs/${songId}/sections`, {
+        headers: authHeaders()
+    })
+    if (!response.ok) {
+        throw new Error('failed to fetch sections')
+    }
+    return response.json()
+}
+
+export async function createSection(songId: string, name: string, startTime: number, endTime: number, notes: string): Promise<Section> {
+    const response = await fetch(`${BASE_URL}/songs/${songId}/sections`, {
+        method: 'POST',
+        headers: authHeaders(),
+        body: JSON.stringify({
+            name,
+            start_time: startTime,
+            end_time: endTime,
+            mastery: "not_started",
+            notes
+        })
+    })
+    if (!response.ok) {
+        throw new Error('failed to create section')
     }
     return response.json()
 }
