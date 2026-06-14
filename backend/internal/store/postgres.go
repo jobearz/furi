@@ -3,6 +3,7 @@ package store
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -72,6 +73,7 @@ func (s *PostgresStore) CreateSection(section model.Section) (model.Section, err
 		section.ID, section.SongID, section.Name, section.StartTime, section.EndTime, section.Mastery, section.Notes, section.CreatedAt,
 	)
 	if err != nil {
+		log.Printf("createSection error: %v", err)
 		return model.Section{}, err
 	}
 
@@ -79,24 +81,30 @@ func (s *PostgresStore) CreateSection(section model.Section) (model.Section, err
 }
 
 func (s *PostgresStore) GetSectionsBySongID(songID string) ([]model.Section, error) {
+	log.Printf("fetching sections for song_id: %s", songID)
 	rows, err := s.db.Query(
 		"SELECT id, song_id, name, start_time, end_time, mastery, notes, created_at FROM sections WHERE song_id = $1",
 		songID,
 	)
+	log.Printf("query error: %v", err)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	sections := make([]model.Section, 0)
+	var sections []model.Section
+	rowCount := 0
 	for rows.Next() {
+		rowCount++
 		var section model.Section
 		err := rows.Scan(&section.ID, &section.SongID, &section.Name, &section.StartTime, &section.EndTime, &section.Mastery, &section.Notes, &section.CreatedAt)
 		if err != nil {
+			log.Printf("scan error: %v", err)
 			return nil, err
 		}
 		sections = append(sections, section)
 	}
+	log.Printf("found %d sections", rowCount)
 	return sections, nil
 }
 
