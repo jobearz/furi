@@ -48,7 +48,10 @@ func (h *SectionHandler) Create(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *SectionHandler) GetSectionsBySongID(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Path[len("/songs/"):]
+	path := strings.TrimPrefix(r.URL.Path, "/songs/")
+	path = strings.TrimSuffix(path, "/sections")
+	id := path
+
 	sections, err := h.store.GetSectionsBySongID(id)
 	if err != nil {
 		http.Error(w, "failed to find sections associated with that song ID", http.StatusNotFound)
