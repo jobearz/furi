@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { createSection, getSections, getSong } from '../api/client'
 import type { Section, Song } from '../types'
@@ -13,6 +13,11 @@ export default function SongDetail() {
   const [error, setError] = useState('')
   const [activeSection, setActiveSection] = useState<Section | null>(null)
   const [song, setSong] = useState<Song | null>(null)
+  const playerRef = useRef<any>(null)
+  const intervalRef = useRef<any>(null)
+  const [reps, setReps] = useState(5)
+  const [repsLeft, setRepsLeft] = useState(5)
+  const [isPracticing, setIsPracticing] = useState(false)
 
   useEffect(() => {
     if (id) {
@@ -22,6 +27,73 @@ export default function SongDetail() {
       })
     }
   }, [id])
+
+  useEffect(() => {
+    const tag = document.createElement('script')
+    tag.src = 'https://www.youtube.com/iframe_api'
+    document.body.appendChild(tag)
+  }, [])
+
+  useEffect(() => {
+    if (!activeSection || !song) return
+
+    const videoId = getVideoId(song.url)
+
+    const createPlayer = () => {
+      if (playerRef.current) {
+        playerRef.current.destroy()
+      }
+      playerRef.current = new (window as any).YT.Player('youtube-player', {
+        height: '315',
+        width: '560',
+        videoId,
+        playerVars: {
+          start: activeSection.start_time,
+          autoplay: 1,
+        },
+      })
+    }
+
+    if ((window as any).YT && (window as any).YT.Player) {
+      createPlayer()
+    } else {
+      (window as any).onYouTubeIframeAPIReady = createPlayer
+    }
+  }, [activeSection, song])
+
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current)
+    }
+  }, [])
+
+  const startPractice = () => {
+    if (!activeSection || !playerRef.current) return
+    setRepsLeft(reps)
+    setIsPracticing(true)
+
+    intervalRef.current = setInterval(() => {
+      if (!playerRef.current) return
+      const currentTime = playerRef.current.getCurrentTime()
+      if (currentTime >= activeSection.end_time) {
+        playerRef.current.seekTo(activeSection.start_time)
+        setRepsLeft(prev => {
+          if (prev <= 1) {
+            clearInterval(intervalRef.current)
+            setIsPracticing(false)
+            playerRef.current.pauseVideo()
+            // advance to next section
+            const currentIndex = sections.findIndex(s => s.id === activeSection.id)
+            if (currentIndex < sections.length - 1) {
+              setActiveSection(sections[currentIndex + 1])
+            }
+            return 0
+          }
+          return prev - 1
+        })
+      }
+    }, 500)
+  }
 
   const getVideoId = (url: string) => {
     const match = url.match(/[?&]v=([^&]+)/)
@@ -55,13 +127,18 @@ export default function SongDetail() {
         </div>
       ))}
       {activeSection && (
-        <iframe
-          width="560"
-          height="315"
-          src={`https://www.youtube.com/embed/${getVideoId(song?.url ?? '')}?start=${activeSection.start_time}&autoplay=1&enablejsapi=1`}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
+        <div>
+          <div id="youtube-player" />
+            <label>Reps: </label>
+            <input
+              type="number"
+              value={reps}
+              onChange={(e) => setReps(Number(e.target.value))}
+            />
+            <button onClick={startPractice} disabled={isPracticing}>
+              {isPracticing ? `${repsLeft} reps left` : 'Start Practice'}
+            </button>
+          </div>
       )}
       <input
         type="text"
