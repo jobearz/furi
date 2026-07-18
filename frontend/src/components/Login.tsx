@@ -28,22 +28,30 @@ export default function Login() {
   } 
 
   return (
-    <div>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Enter your email"
-      />
-      <input 
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Enter your password"
-      />
-      <button onClick={handleLogin}>Login</button>
-      <button onClick={handleRegister}>Register</button>
-      {error && <p>{error}</p>}
+    <div className='login-container'>
+      <div className='login-card'>
+        <h1 className='login-title'>Login</h1>
+        <h2 className='email-field'>Email:</h2>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter your email"
+        />
+        <h2 className='password-field'>Password:</h2>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Enter your password"
+        />
+        <p className='forgot-password'>Forgot password? <a href="https://example.com">Click here!</a></p>
+        <div className='button-row'>
+          <button onClick={handleLogin}>Login</button>
+          <button className='btn-secondary' onClick={handleRegister}>Register</button>
+        </div>
+        {error && <p>{error}</p>}
+      </div>
     </div>
   )
 }
