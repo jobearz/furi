@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
-import { createSection, getSections, getSong } from '../api/client'
-import type { Section, Song } from '../types'
+import { createSection, getSections, getSessions, getSong } from '../api/client'
+import type { Section, Session, Song } from '../types'
+import Heatmap from './Heatmap'
 
 export default function SongDetail() {
   const { id } = useParams()
@@ -18,6 +19,7 @@ export default function SongDetail() {
   const [reps, setReps] = useState(5)
   const [repsLeft, setRepsLeft] = useState(5)
   const [isPracticing, setIsPracticing] = useState(false)
+  const [sessions, setSessions] = useState<Session[]>([])
 
   useEffect(() => {
     if (id) {
@@ -25,6 +27,7 @@ export default function SongDetail() {
       getSections(id).then(data => {
         setSections(data)
       })
+      getSessions(id).then(setSessions)
     }
   }, [id])
 
@@ -162,6 +165,7 @@ export default function SongDetail() {
         onChange={(e) => setNotes(e.target.value)}
       />
       <button onClick={handleAdd}>Create New Section</button>
+      <Heatmap sessions={sessions} />
       {error && <p>{error}</p>}
     </div>
   )

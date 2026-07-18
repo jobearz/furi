@@ -1,4 +1,4 @@
-import type { Song, Section } from "../types"
+import type { Song, Section, Session } from "../types"
 
 const BASE_URL = 'http://localhost:8080'
 
@@ -92,6 +92,16 @@ export async function createSection(songId: string, name: string, startTime: num
     })
     if (!response.ok) {
         throw new Error('failed to create section')
+    }
+    return response.json()
+}
+
+export async function getSessions(songId: string): Promise<Session[]> {
+    const response = await fetch(`${BASE_URL}/songs/${songId}/sessions`, {
+        headers: authHeaders()
+    })
+    if (!response.ok) {
+        throw new Error('failed to fetch sessions')
     }
     return response.json()
 }

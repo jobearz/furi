@@ -147,7 +147,7 @@ func (s *PostgresStore) GetSessionsBySongID(songID string) ([]model.Session, err
 	}
 	defer rows.Close()
 
-	var sessions []model.Session
+	sessions := make([]model.Session, 0)
 	for rows.Next() {
 		var session model.Session
 		var sectionIDs string
