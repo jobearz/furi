@@ -4,6 +4,7 @@ import Login from './components/Login'
 import SongList from './components/SongList'
 import SongDetail from './components/SongDetail'
 import Dashboard from './components/Dashboard'
+import SectionPage from './components/SectionPage'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/songs" element={<SongList />} />
         <Route path="/songs/:id" element={<SongDetail />} />
+        <Route path="/songs/:id/section" element={<SectionPage />} />
       </Routes>
     </BrowserRouter>
   )

@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { createSection, getSections, getSessions, getSong } from '../api/client'
 import type { Section, Session, Song } from '../types'
 import Heatmap from './Heatmap'
 
 export default function SongDetail() {
+  const navigate = useNavigate()
   const { id } = useParams()
   const [sections, setSections] = useState<Section[]>([])
   const [name, setName] = useState('')
@@ -123,15 +124,19 @@ export default function SongDetail() {
   return (
     <div>
       <h1>Sections</h1>
-      {(sections ?? []).map(section => (
-        <div key={section.id} onClick={() => setActiveSection(section)}>
-          <p>{section.name} - {section.start_time}s to {section.end_time}s</p>
-          <p>Mastery: {section.mastery}</p>
-        </div>
-      ))}
-      {activeSection && (
-        <div>
-          <div id="youtube-player" />
+      <div className='sections'>
+        {(sections ?? []).map(section => (
+          <div key={section.id} onClick={() => {setActiveSection(section); navigate(`${section.id}`)}}>
+            <p>{section.name} - {section.start_time}s to {section.end_time}s</p>
+            <p>Mastery: {section.mastery}</p>
+          </div>
+        ))}
+      </div>
+      <div className="practice-section">
+
+        {activeSection && (
+          <div>
+            <div id="youtube-player" />
             <label>Reps: </label>
             <input
               type="number"
@@ -142,28 +147,31 @@ export default function SongDetail() {
               {isPracticing ? `${repsLeft} reps left` : 'Start Practice'}
             </button>
           </div>
-      )}
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Enter name of section."
-      />
-      <input
-        type="number"
-        value={startTime}
-        onChange={(e) => setStartTime(e.target.value)}
-      />
-      <input
-        type="number"
-        value={endTime}
-        onChange={(e) => setEndTime(e.target.value)}
-      />
-      <input
-        type="text"
-        value={notes}
-        onChange={(e) => setNotes(e.target.value)}
-      />
+        )}
+        <div className='section-input'>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="New Section"
+          />
+          <input
+            type="number"
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
+          />
+          <input
+            type="number"
+            value={endTime}
+            onChange={(e) => setEndTime(e.target.value)}
+          />
+          <input
+            type="text"
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+          />
+        </div>
+      </div>
       <button onClick={handleAdd}>Create New Section</button>
       <Heatmap sessions={sessions} />
       {error && <p>{error}</p>}

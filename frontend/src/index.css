@@ -169,3 +169,11 @@ input:focus {
   color: #FF6B6B;
   font-size: 13px;
 }
+
+.sections {
+  
+}
+
+.practice-section {
+  display: flex;
+}
