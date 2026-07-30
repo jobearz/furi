@@ -73,6 +73,8 @@ func main() {
 		switch r.Method {
 		case http.MethodGet:
 			songHandler.GetByID(w, r)
+		case http.MethodDelete:
+			songHandler.Delete(w, r)
 		default:
 			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		}
