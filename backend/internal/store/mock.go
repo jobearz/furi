@@ -1,26 +1,27 @@
 package store
 
-import (
-	"github.com/jobearz/furi/internal/model"
-)
+import "github.com/jobearz/furi/internal/model"
 
 type MockStore struct{}
 
 func (m *MockStore) Create(song model.Song) (model.Song, error) {
-	song.ID = "test_id"
+	song.ID = "test-id"
 	return song, nil
 }
 
 func (m *MockStore) GetAll() ([]model.Song, error) {
-	return []model.Song{}, nil
+	return []model.Song{{ID: "test-id", Title: "Supernova", Artist: "aespa"}}, nil
 }
 
 func (m *MockStore) GetByID(id string) (model.Song, error) {
-	return model.Song{}, nil
+	return model.Song{ID: id, Title: "Supernova", Artist: "aespa"}, nil
+}
+
+func (m *MockStore) DeleteSong(id string) error {
+	return nil
 }
 
 func (m *MockStore) CreateSection(section model.Section) (model.Section, error) {
-	section.ID = "test_id"
 	return section, nil
 }
 
@@ -32,8 +33,11 @@ func (m *MockStore) UpdateSectionMastery(id string, status model.MasteryStatus) 
 	return model.Section{}, nil
 }
 
+func (m *MockStore) DeleteSection(id string) error {
+	return nil
+}
+
 func (m *MockStore) CreateSession(session model.Session) (model.Session, error) {
-	session.ID = "test_id"
 	return session, nil
 }
 
@@ -42,10 +46,9 @@ func (m *MockStore) GetSessionsBySongID(songID string) ([]model.Session, error) 
 }
 
 func (m *MockStore) CreateUser(user model.User) (model.User, error) {
-	user.ID = "test_id"
 	return user, nil
 }
 
 func (m *MockStore) GetUserByEmail(email string) (model.User, error) {
-	return model.User{}, nil
+	return model.User{ID: "test-id", Email: email}, nil
 }
