@@ -13,4 +13,6 @@ type SongStore interface {
 	GetSessionsBySongID(songID string) ([]model.Session, error)
 	CreateUser(user model.User) (model.User, error)
 	GetUserByEmail(email string) (model.User, error)
+	DeleteSong(id string) error
+	DeleteSection(id string) error
 }

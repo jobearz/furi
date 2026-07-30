@@ -187,3 +187,28 @@ func (s *PostgresStore) GetUserByEmail(email string) (model.User, error) {
 	}
 	return user, nil
 }
+
+func (s *PostgresStore) DeleteSong(id string) error {
+	_, err := s.db.Exec("DELETE FROM songs WHERE id = $1", id)
+	if err != nil {
+		log.Printf("delete song error: %v", err)
+		return fmt.Errorf("failed to delete song: %w", err)
+	}
+	return nil
+}
+
+func (s *PostgresStore) DeleteSection(id string) error {
+	_, err := s.db.Exec("DELETE FROM sections WHERE id = $1", id)
+	if err != nil {
+		return fmt.Errorf("failed to delete section: %w", err)
+	}
+	return nil
+}
+
+func (s *PostgresStore) DeleteSession(id string) error {
+	_, err := s.db.Exec("DELETE FROM sessions WHERE id = $1", id)
+	if err != nil {
+		return fmt.Errorf("failed to delete session: %w", err)
+	}
+	return nil
+}
