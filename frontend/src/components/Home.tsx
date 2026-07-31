@@ -11,7 +11,7 @@ export default function Home() {
     if (!token) {
       navigate('/login');
     } else {
-        navigate('/dashboard')
+        navigate('/songs')
     }
  };
 
@@ -29,7 +29,6 @@ export default function Home() {
           <button className="home-button" type="button" onClick={checkIfLogin}>
             Start Practicing
           </button>
-          <button className="home-button">Explore features</button>
         </div>
 
         <div className="features">
