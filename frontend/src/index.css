@@ -26,8 +26,9 @@ button {
   border: none;
   border-radius: 8px;
   padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 500;
+  margin: .5em;
+  font-size: 1.2em;
+  font-weight: 600;
   background: var(--accent);
   color: var(--text);
   transition: opacity 0.15s;
@@ -170,10 +171,80 @@ input:focus {
   font-size: 13px;
 }
 
-.sections {
-  
+#song-list-page, 
+#song-detail-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
+
+.songs-header,
+.sections-header {
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.song-form,
+.section-form {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
+.song-list,
+.sections-list {
+  min-width: 50vw;
+}
+
+
 
 .practice-section {
   display: flex;
+}
+
+.song-info,
+.section-info {
+  background-color: var(--surface);
+  border-radius: 15px;
+  color: var(--text-secondary);
+  font-size: 1.25em;
+  padding-right: 20px;
+  padding-left: 20px;
+  margin-top: 10px;
+  font-weight: 500;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.delete-button {
+  background: none;
+  margin-left: auto;
+  margin-right: 0;
+  font-size: 25px;
+}
+
+.mastery {
+  padding-left: 10px;
+  font-weight: 400;
+}
+
+.reps {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.reps-label {
+  display: flex;
+  color: var(--text);
+  align-items: center;
+  font-weight: 500;
+}
+
+.reps-input {
+  width: 25%;
 }

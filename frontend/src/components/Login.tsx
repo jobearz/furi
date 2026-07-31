@@ -11,7 +11,7 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       await login(email, password)
-      navigate('/dashboard')
+      navigate('/songs')
     } catch (err) {
       setError('invalid email or password')
     }
