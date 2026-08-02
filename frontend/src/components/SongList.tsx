@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { createSong, deleteSong, getSongs } from '../api/client'
 import type { Song } from '../types'
 import { useNavigate } from 'react-router-dom'
-import { TiDelete } from 'react-icons/ti'
+import { PopUp } from './PopUp'
 
 export default function SongList() {
   const [songs, setSongs] = useState<Song[]>([])
@@ -11,6 +11,8 @@ export default function SongList() {
   const [url, setURL] = useState('')
   const [showSongForm, setShowSongForm] = useState(false)
   const [error, setError] = useState('')
+  const [activeSong, setActiveSong] = useState<Song>()
+  const [songPopUp, setSongPopUp] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -37,6 +39,28 @@ export default function SongList() {
 
   const handleClick = () => {
     setShowSongForm(!showSongForm)
+  }
+
+  const handleSongClick = (): void => {
+    setSongPopUp(true);
+  }
+
+  const handleCloseSong = (): void => {
+    setSongPopUp(false);
+  }
+
+  const navigateToSong = (activeSong: Song): void => {
+    if (activeSong !== undefined) {
+      navigate(`/songs/${activeSong.id}`)
+      }
+  }
+
+  const doesUserHaveSongs = (): boolean => {
+    if (!songs || songs.length === 0) {
+      return false
+    } else {
+      return true
+    }
   }
 
   return (
@@ -72,23 +96,39 @@ export default function SongList() {
         </div>
       )}
 
-      <div className='song-list'>
-        {songs.map(song => (
-          <div className='song-info' key={song.id} onClick={() => navigate(`/songs/${song.id}`)}>
-            <p>{song.title} - {song.artist}</p>
-            <button
-              className='delete-button'
-              onClick={(e) => {
-              e.stopPropagation();
-              handleDelete(song);
-            }}>
-              <TiDelete />
-            </button>
-          </div>
-        ))}
-      </div>
+      {doesUserHaveSongs() &&
+          <div className='song-list'>
+            {songs.map(song => (
+              <div className='song-info' key={song.id} onClick={() => {
+                setActiveSong(song);
+                handleSongClick();
+                }}>
+                <p>{song.title} - {song.artist}</p>
+              </div>
+            ))}
+          
+          <PopUp showPopUp={songPopUp} closePopUp={handleCloseSong}>
+            <div className='popup-content'>
+              <h3 className='popup-song-info'>{activeSong?.title} - {activeSong?.artist}</h3>
+              <div className='popup-options'>
+                <button onClick={() => navigateToSong(activeSong!)}>
+                  Practice
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(activeSong!);
+                  }}>
+                  Delete Song
+                </button>
+              </div>
+            </div>
+          </PopUp>
+        </div>
+      }
 
       {error && <p>{error}</p>}
     </div>
   )
 }
+// navigate(`/songs/${song.id}`

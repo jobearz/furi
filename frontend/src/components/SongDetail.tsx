@@ -18,6 +18,7 @@ export default function SongDetail() {
   const [song, setSong] = useState<Song | null>(null)
   const playerRef = useRef<any>(null)
   const intervalRef = useRef<any>(null)
+  const [sectionPopUp, setSectionPopUp] = useState(false)
   const [reps, setReps] = useState(5)
   const [repsLeft, setRepsLeft] = useState(5)
   const [isPracticing, setIsPracticing] = useState(false)
@@ -49,6 +50,7 @@ export default function SongDetail() {
         playerRef.current.destroy()
       }
       playerRef.current = new (window as any).YT.Player('youtube-player', {
+        host: 'https://www.youtube.com',
         height: '315',
         width: '560',
         videoId,
@@ -59,7 +61,8 @@ export default function SongDetail() {
           controls: 1,
           modestbranding: 0,
           rel: 0,
-        }
+          origin: window.location.origin
+        },
       })
     }
 
@@ -116,8 +119,8 @@ export default function SongDetail() {
   const handleAdd = async () => {
         if (!id) return
     try {
-            const newSection = await createSection(id, name, timeToSeconds(startTime), timeToSeconds(endTime), notes)
-      setSections(prev => [...prev, newSection])
+      const newSection = await createSection(id, name, timeToSeconds(startTime), timeToSeconds(endTime), notes)
+      setSections(prev => [...(prev ?? []), newSection])
       setName('')
       setStartTime('')
       setEndTime('')
@@ -177,13 +180,13 @@ export default function SongDetail() {
           />
           <h4>Start time</h4>
           <input
-            type="number"
+            type="text"
             value={startTime}
             onChange={(e) => setStartTime(e.target.value)}
           />
           <h4>End time</h4>
           <input
-            type="number"
+            type="text"
             value={endTime}
             onChange={(e) => setEndTime(e.target.value)}
           />
@@ -208,7 +211,7 @@ export default function SongDetail() {
                   e.stopPropagation();
                   handleDelete(section);
                 }}>
-                <TiDelete />
+                X
               </button>
             </div>
           ))}
