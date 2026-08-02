@@ -11,7 +11,7 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       await login(email, password)
-      navigate('/dashboard')
+      navigate('/songs')
     } catch (err) {
       setError('invalid email or password')
     }
@@ -31,21 +31,21 @@ export default function Login() {
     <div className='login-container'>
       <div className='login-card'>
         <h1 className='login-title'>Login</h1>
-        <h2 className='email-field'>Email:</h2>
+        <h2 className='email-field'>Email</h2>
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
+          placeholder="email@example.com"
         />
-        <h2 className='password-field'>Password:</h2>
+        <h2 className='password-field'>Password</h2>
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter your password"
+          placeholder="Password"
         />
-        <p className='forgot-password'>Forgot password? <a href="https://example.com">Click here!</a></p>
+        <p className='forgot-password'>Forgot password? <a href="https://example.com">Click here</a></p>
         <div className='button-row'>
           <button onClick={handleLogin}>Login</button>
           <button className='btn-secondary' onClick={handleRegister}>Register</button>

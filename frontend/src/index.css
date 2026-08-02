@@ -1,10 +1,10 @@
 :root {
   --bg: #121212;
-  --surface: #1A1A1A;
+  --surface: #1a1a1ae1;
   --text: #F0F0F0;
   --text-secondary: #A0A0A0;
   --accent: #FF4E8E;
-  --accent-muted: rgba(173, 48, 86, 0.959);
+  --accent-muted: #802747;
 }
 
 * {
@@ -16,15 +16,18 @@
 body {
   background-color: var(--bg);
   color: var(--text);
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: Inter, sans-serif;
   min-height: 100vh;
   font-size: 16px;
+  display: flex;
+  flex-direction: column;
 }
 
 button {
+  cursor: pointer;
   padding: 10px 20px;
   border: none;
-  font-size: 1em;
+  font-size: 1.2em;
   color: #fff;
   border-radius: 7px;
   font-weight: 700;
@@ -32,13 +35,14 @@ button {
   transition-property: box-shadow;
   background: var(--accent);
   box-shadow: 0 0 25px var(--accent-muted);
+  width: auto;
+  height: auto;
 }
 
 button:hover {
   box-shadow: 0 0 5px var(--accent-muted),
-              0 0 25px var(--accent-muted),
-              0 0 50px var(--accent-muted),
-              0 0 100px var(--accent-muted);
+    0 0 25px var(--accent-muted),
+    0 0 50px var(--accent-muted);
 }
 
 button:disabled {
@@ -52,13 +56,16 @@ input {
   border-radius: 8px;
   padding: 10px 14px;
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: 1em;
   width: 100%;
   outline: none;
 }
 
-input:focus {
-  border-color: var(--accent);
+input:hover, input:focus {
+  transition: 0.3s;
+  transition-property: border-color box-shadow;
+  border-color: var(--accent-muted);
+  box-shadow: 0 0 25px var(--accent-muted);
 }
 
 .home-container {
@@ -67,41 +74,47 @@ input:focus {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 20px;
+  padding: 20px;
 }
 
 .introduction-card {
-  min-width: 55vw;
+  width: 75vw;
+  min-height: 50vh;
   padding: 30px;
   background-color: var(--surface);
   border-radius: 26px;
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.5) 0px 30px 60px -30px,
+    rgba(0, 0, 0, 0.4) 0px -2px 6px 0px inset;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
 }
 
 .title-header {
-  font-size: 3em;
-  font-weight: 500;
+  font-size: 2em;
+  font-weight: 600;
   color: var(--text);
   text-align: center;
 }
 
 .app-name {
-  font-weight: 700;
-  color: var(--accent)
+  color: var(--accent);
 }
 
 .title-subtitle {
-  font-size: 1.2em;
+  font-size: 1.1em;
   font-weight: 500;
   color: var(--text-secondary);
   margin-bottom: 10px;
   text-align: center;
 }
 
-.home-button {
-  font-size: 1em;
-}
-
 .features {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 10px;
@@ -109,12 +122,21 @@ input:focus {
 }
 
 .feature-tab {
-  background-color: var(--accent-muted);
   color: var(--text);
-  border-radius: 50px;
-  padding: 15px;
-  font-weight: 500;
+  border-radius: 20px;
+  padding: 5px;
+  font-weight: 600;
+  font-size: 1em;
   text-align: center;
+  width: 85%;
+}
+
+.feature-tab:hover {
+  background-color: var(--accent-muted);
+  box-shadow:
+    0 0 20px var(--accent-muted);
+  transition: 0.5s;
+  transition-property: box-shadow background-color;
 }
 
 .login-container {
@@ -125,38 +147,54 @@ input:focus {
 }
 
 .login-card {
-  min-width: 55vw;
-  padding: 30px;
+  width: 80vw;
+  padding: 50px 40px 50px 40px;
   background-color: var(--surface);
   border-radius: 26px;
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.5) 0px 30px 60px -30px,
+    rgba(0, 0, 0, 0.4) 0px -2px 6px 0px inset;
 }
 
 .login-title {
-  font-size: 2em;
+  font-size: 2.5em;
   font-weight: 600;
   color: var(--accent);
   margin-bottom: 15px;
   text-align: center;
+  text-shadow: 0 0 5px var(--accent-muted),
+    0 0 25px var(--accent-muted);
 }
 
 .email-field,
 .password-field {
-  font-size: 1em;
+  font-size: 1.5em;
   font-weight: 500;
   color: var(--text-secondary);
   margin: 10px 0px 5px 0px;
 }
 
 .forgot-password {
-  font-size: 1em;
+  font-size: 1.1em;
   font-weight: 400;
   color: var(--text-secondary);
-  padding: 10px 0px 10px 0px;
+  margin: 20px 0px 20px 0px;
+}
+
+a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 .button-row {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .button-row button {
@@ -178,15 +216,22 @@ input:focus {
 #song-detail-page {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   padding: 20px;
+  position: relative;
 }
 
 .songs-header,
 .sections-header {
   font-weight: 500;
   margin-bottom: 20px;
+  font-size: 2.5em;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 15px;
+  text-align: center;
+  text-shadow: 0 0 5px var(--accent-muted),
+    0 0 25px var(--accent-muted);
 }
 
 .song-form,
@@ -196,75 +241,92 @@ input:focus {
   width: 70%;
 }
 
+.song-form-fields {
+  font-size: 1.3em;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin: 10px 0px 5px 0px;
+}
+
+.create-button {
+  margin-top: 20px;
+}
+
 .song-list,
 .sections-list {
-  min-width: 50vw;
+  min-width: 80vw;
   opacity: 1;
   transform: translateY(0);
   transition: opacity 0.4s ease, transform 0.4s ease;
-  /* 0.6.1 */
-}
-
-.practice-section {
-  display: flex;
+  margin-top: 10px;
 }
 
 .song-info,
 .section-info {
-  background-color: var(--surface);
+  background-color: var(--accent);
   border-radius: 15px;
-  color: var(--text-secondary);
-  font-size: 1.25em;
-  padding: 20px;
+  color: var(--text);
+  font-size: 1.1em;
+  padding: 20px 20px 20px 30px;
   margin-top: 10px;
-  font-weight: 500;
+  font-weight: 600;
   width: 100%;
   display: flex;
   align-items: center;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.411) 0px -23px 25px 0px inset;
 
 }
 
 .song-info:hover,
 .section-info:hover {
   transform: translateY(-3px);
-  /* Lifts the button up */
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  /* Adds soft depth shadow */
+  box-shadow: rgba(0, 0, 0, 0.411) 0px -23px 25px 0px inset;
 }
 
 .popup {
-  animation: popIn 0.3s ease-out forwards;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 1000;
-  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @keyframes popIn {
   0% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.7);
+    transform: scale(0.7);
   }
 
   100% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
   }
 }
 
 .popup-content {
+  animation: popIn 0.3s ease-out forwards;
   background-color: var(--surface);
   border-radius: 15px;
-  padding: 30px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  padding: 20px;
   width: 25em;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.5) 0px 30px 60px -30px,
+    rgba(0, 0, 0, 0.4) 0px -2px 6px 0px inset;
 }
 
 .popup-song-info {
+  font-size: 1.5em;
   margin-bottom: 20px;
 }
 
@@ -273,7 +335,11 @@ input:focus {
   gap: 50px;
 }
 
-.close-popup-button {}
+.close-popup-button {
+  animation: popIn 0.3s ease-out forwards;
+  margin: 15px;
+  font-size: 1em;
+}
 
 @starting-style {
 
@@ -294,7 +360,12 @@ input:focus {
   background: none;
   margin-left: auto;
   margin-right: 0;
-  font-size: 25px;
+  font-size: 10px;
+  box-shadow: none;
+}
+
+.delete-button:hover {
+  box-shadow: none;
 }
 
 .mastery {
@@ -302,12 +373,30 @@ input:focus {
   font-weight: 400;
 }
 
+.practice-section {
+  display: flex;
+}
+
+#video-container {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+}
+
+#video-container iframe {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+
 .reps {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 5px;
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -315,10 +404,28 @@ input:focus {
 .reps-label {
   display: flex;
   color: var(--text);
+  font-size: 1.3em;
   align-items: center;
   font-weight: 700;
+  margin-bottom: 10px;
 }
 
 .reps-input {
-  width: 25%;
+  width: 80px;
+  margin-bottom: 10px;
+}
+
+.heatmap {
+  margin-top: 50px;
+}
+
+@media (min-width: 480px) {
+  .introduction-card {
+    width: 85vw
+  }
+
+  .button-row {
+    flex-direction: row;
+    padding-top: 20px;
+  }
 }

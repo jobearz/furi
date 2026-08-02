@@ -1,6 +1,6 @@
 import type { Song, Section, Session } from "../types"
 
-const BASE_URL = 'http://localhost:8080'
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
 
 function getToken(): string {
     return localStorage.getItem('token') ?? ''
@@ -114,4 +114,12 @@ export async function deleteSong(id: string): Promise<void> {
     if (!response.ok) {
         throw new Error('failed to delete song')
     }
+}
+
+export async function deleteSection(id: string): Promise<void> {
+  const response = await fetch(`${BASE_URL}/sections/${id}`, {
+    method: 'DELETE',
+    headers: authHeaders()
+  })
+  if (!response.ok) throw new Error('failed to delete section')
 }
