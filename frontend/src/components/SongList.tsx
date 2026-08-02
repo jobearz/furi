@@ -52,7 +52,7 @@ export default function SongList() {
   const navigateToSong = (activeSong: Song): void => {
     if (activeSong !== undefined) {
       navigate(`/songs/${activeSong.id}`)
-      }
+    }
   }
 
   const doesUserHaveSongs = (): boolean => {
@@ -69,45 +69,48 @@ export default function SongList() {
       <button onClick={handleClick}>
         {showSongForm ? 'Close' : 'Add New Song'}
       </button>
-      {showSongForm && (
-        <div className='song-form'>
-          <h4>Song title</h4>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Enter the song title"
-          />
-          <h4>Artist name</h4>
-          <input
-            type="text"
-            value={artist}
-            onChange={(e) => setArtist(e.target.value)}
-            placeholder="Enter the artist name"
-          />
-          <h4>YouTube URL</h4>
-          <input
-            type="text"
-            value={url}
-            onChange={(e) => setURL(e.target.value)}
-            placeholder="Enter the YouTube URL of the song"
-          />
-          <button onClick={handleAdd}>Create New Song</button>
-        </div>
-      )}
+        {showSongForm && (
+            <div className='song-form'>
+              <h4 className='song-form-fields'>Song title</h4>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Enter the song title"
+              />
+              <h4 className='song-form-fields'>Artist name</h4>
+              <input
+                type="text"
+                value={artist}
+                onChange={(e) => setArtist(e.target.value)}
+                placeholder="Enter the artist name"
+              />
+              <h4 className='song-form-fields'>YouTube URL</h4>
+              <input
+                type="text"
+                value={url}
+                onChange={(e) => setURL(e.target.value)}
+                placeholder="Enter the YouTube URL of the song"
+              />
+              <button onClick={handleAdd} className='create-button'>Create New Song</button>
+            </div>
+        )}
 
       {doesUserHaveSongs() &&
-          <div className='song-list'>
-            {songs.map(song => (
-              <div className='song-info' key={song.id} onClick={() => {
-                setActiveSong(song);
-                handleSongClick();
-                }}>
-                <p>{song.title} - {song.artist}</p>
-              </div>
-            ))}
+        <div className='song-list'>
+          {songs.map(song => (
+            <div className='song-info' key={song.id} onClick={() => {
+              setActiveSong(song);
+              handleSongClick();
+            }}>
+              <p>{song.title} - {song.artist}</p>
+            </div>
+          ))}
+
           
-          <PopUp showPopUp={songPopUp} closePopUp={handleCloseSong}>
+        </div>
+      }
+  <PopUp showPopUp={songPopUp} closePopUp={handleCloseSong}>
             <div className='popup-content'>
               <h3 className='popup-song-info'>{activeSong?.title} - {activeSong?.artist}</h3>
               <div className='popup-options'>
@@ -124,9 +127,6 @@ export default function SongList() {
               </div>
             </div>
           </PopUp>
-        </div>
-      }
-
       {error && <p>{error}</p>}
     </div>
   )
