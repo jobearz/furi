@@ -105,3 +105,13 @@ export async function getSessions(songId: string): Promise<Session[]> {
     }
     return response.json()
 }
+
+export async function deleteSong(id: string): Promise<void> {
+    const response = await fetch(`${BASE_URL}/songs/${id}`, {
+        method: 'DELETE',
+        headers: authHeaders()
+    })
+    if (!response.ok) {
+        throw new Error('failed to delete song')
+    }
+}

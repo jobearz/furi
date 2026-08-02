@@ -21,7 +21,9 @@ CREATE TABLE sections (
     end_time INTEGER NOT NULL,
     mastery TEXT NOT NULL,
     notes TEXT,
-    created_at TIMESTAMPTZ NOT NULL
+    created_at TIMESTAMPTZ NOT NULL,
+    CONSTRAINT "song_section"
+            FOREIGN KEY (song_id) REFERENCES songs(id) ON DELETE CASCADE
 );
 
 CREATE TABLE sessions (
@@ -31,5 +33,7 @@ CREATE TABLE sessions (
     duration INTEGER NOT NULL,
     section_ids TEXT,
     notes TEXT,
-    created_at TIMESTAMPTZ NOT NULL
+    created_at TIMESTAMPTZ NOT NULL,
+    CONSTRAINT "song_session"
+        FOREIGN KEY (song_id) REFERENCES songs(id) ON DELETE CASCADE
 );
