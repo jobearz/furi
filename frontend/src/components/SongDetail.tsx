@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { createSection, getSections, getSessions, getSong, deleteSection } from '../api/client'
 import type { Section, Session, Song } from '../types'
+import { TiDelete } from 'react-icons/ti'
 import Heatmap from './Heatmap'
 import { PopUp } from './PopUp'
 
