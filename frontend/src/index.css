@@ -205,6 +205,20 @@ input:focus {
   /* 0.6.1 */
 }
 
+.song-form,
+.section-form {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
+.song-list,
+.sections-list {
+  min-width: 50vw;
+}
+
+
+
 .practice-section {
   display: flex;
 }
