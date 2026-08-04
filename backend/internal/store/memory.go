@@ -14,6 +14,7 @@ type MemoryStore struct {
 	songs    map[string]model.Song
 	sections map[string]model.Section
 	sessions map[string]model.Session
+	users    map[string]model.User
 	mu       sync.RWMutex
 }
 
@@ -22,6 +23,7 @@ func NewMemoryStore() *MemoryStore {
 		songs:    make(map[string]model.Song),
 		sections: make(map[string]model.Section),
 		sessions: make(map[string]model.Session),
+		users:    make(map[string]model.User),
 	}
 }
 
