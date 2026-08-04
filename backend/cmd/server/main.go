@@ -42,6 +42,8 @@ func main() {
 				sectionHandler.GetSectionsBySongID(w, r)
 			case http.MethodPatch:
 				sectionHandler.UpdateSectionMastery(w, r)
+			case http.MethodDelete:
+				sectionHandler.Delete(w, r)
 			default:
 				http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 			}

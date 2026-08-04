@@ -94,3 +94,20 @@ func (h *SectionHandler) UpdateSectionMastery(w http.ResponseWriter, r *http.Req
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(updated)
 }
+
+func (h *SectionHandler) Delete(w http.ResponseWriter, r *http.Request) {
+	path := strings.TrimPrefix(r.URL.Path, "/songs/")
+	parts := strings.Split(path, "/")
+
+	if len(parts) < 3 {
+		http.Error(w, "path invalid", http.StatusBadRequest)
+		return
+	}
+	sectionID := parts[2]
+	err := h.store.DeleteSection(sectionID)
+	if err != nil {
+		http.Error(w, "failed to delete section", http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
