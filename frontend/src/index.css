@@ -79,6 +79,26 @@ input:focus {
   padding: 20px;
 }
 
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px)
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.introduction-card,
+.login-card,
+.popup-content,
+.close-popup-button {
+  animation-name: fadeUp;
+  animation-duration: 0.7s;
+  animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1); 
+}
+
 .introduction-card {
   width: 75vw;
   min-height: 50vh;
@@ -301,20 +321,7 @@ a:hover {
   justify-content: center;
 }
 
-@keyframes popIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.7);
-  }
-
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 .popup-content {
-  animation: popIn 0.3s ease-in-out;
   background-color: var(--surface);
   border-radius: 15px;
   padding: 20px;
@@ -328,6 +335,8 @@ a:hover {
     rgba(0, 0, 0, 0.4) 0px -2px 6px 0px inset;
 }
 
+
+
 .popup-song-info {
   font-size: 1.5em;
   margin-bottom: 20px;
@@ -339,7 +348,6 @@ a:hover {
 }
 
 .close-popup-button {
-  animation: popIn 0.3s ease-out forwards;
   margin: 15px;
   font-size: 1em;
 }
@@ -429,7 +437,38 @@ select {
   margin-top: 50px;
 }
 
-@media (min-width: 480px) {
+@media screen and (min-width: 768px) and (max-width: 1239px) {
+  .practice-section .popup-content {
+    min-width: 80vw;
+    height: 80vh;
+  }
+
+  #video-container {
+  width: 120%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#video-container iframe {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+.reps {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+}
+
+@media screen and (min-width: 1240px) {
   .introduction-card {
     width: 85vw;
   }
@@ -453,7 +492,7 @@ select {
   }
 
   .practice-section .popup-content {
-    width: 75vw;
+    min-width: 90vw;
     height: 80vh;
   }
 

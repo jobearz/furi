@@ -158,7 +158,7 @@ export default function SongDetail() {
 
   const handleDelete = async (deletedSection: Section) => {
     try {
-      await deleteSection(deletedSection.id)
+      await deleteSection(id!, deletedSection.id)
       setSections(sections.filter(s => s.id !== deletedSection.id))
     } catch (error) {
       console.error('Failed to delete section:', error)
