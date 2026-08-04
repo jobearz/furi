@@ -123,3 +123,13 @@ export async function deleteSection(id: string): Promise<void> {
   })
   if (!response.ok) throw new Error('failed to delete section')
 }
+
+export async function updateMastery(songId: string, sectionId: string, mastery: string): Promise<Section> {
+  const response = await fetch(`${BASE_URL}/songs/${songId}/sections/${sectionId}`, {
+    method: 'PATCH',
+    headers: authHeaders(),
+    body: JSON.stringify({ mastery })
+  })
+  if (!response.ok) throw new Error('failed to update mastery')
+  return response.json()
+}

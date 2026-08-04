@@ -11,9 +11,9 @@ export default function Home() {
     if (!token) {
       navigate('/login');
     } else {
-        navigate('/songs')
+      navigate('/songs')
     }
- };
+  };
 
   return (
     <div className="home-container">
@@ -24,17 +24,12 @@ export default function Home() {
         <h2 className="title-subtitle">
           A structured choreography learning and practice app for dancers
         </h2>
-        
-        <div className="button-row">
-          <button className="home-button" type="button" onClick={checkIfLogin}>
-            Start Practicing
-          </button>
-        </div>
-
+        <button className="home-button" type="button" onClick={checkIfLogin}>
+          Start Practicing
+        </button>
         <div className="features">
           <div className="feature-tab">Visually track your progress</div>
           <div className="feature-tab">Drill dances by section</div>
-          <div className="feature-tab">Schedule practice sessions</div>
           <div className="feature-tab">Track your mastery of dances</div>
         </div>
       </div>

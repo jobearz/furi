@@ -61,7 +61,8 @@ input {
   outline: none;
 }
 
-input:hover, input:focus {
+input:hover,
+input:focus {
   transition: 0.3s;
   transition-property: border-color box-shadow;
   border-color: var(--accent-muted);
@@ -108,7 +109,7 @@ input:hover, input:focus {
   font-size: 1.1em;
   font-weight: 500;
   color: var(--text-secondary);
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
@@ -129,14 +130,15 @@ input:hover, input:focus {
   font-size: 1em;
   text-align: center;
   width: 85%;
+    transition: 0.5s ease-in;
+  transition-property: box-shadow background-color;
 }
 
 .feature-tab:hover {
   background-color: var(--accent-muted);
   box-shadow:
     0 0 20px var(--accent-muted);
-  transition: 0.5s;
-  transition-property: box-shadow background-color;
+
 }
 
 .login-container {
@@ -246,6 +248,7 @@ a:hover {
   font-weight: 500;
   color: var(--text-secondary);
   margin: 10px 0px 5px 0px;
+  
 }
 
 .create-button {
@@ -311,7 +314,7 @@ a:hover {
 }
 
 .popup-content {
-  animation: popIn 0.3s ease-out forwards;
+  animation: popIn 0.3s ease-in-out;
   background-color: var(--surface);
   border-radius: 15px;
   padding: 20px;
@@ -342,7 +345,6 @@ a:hover {
 }
 
 @starting-style {
-
   .song-list,
   .sections-list {
     opacity: 0;
@@ -415,17 +417,65 @@ a:hover {
   margin-bottom: 10px;
 }
 
+select {
+  border-radius: 20px;
+  border: none;
+  padding: 10px;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
 .heatmap {
   margin-top: 50px;
 }
 
 @media (min-width: 480px) {
   .introduction-card {
-    width: 85vw
+    width: 85vw;
   }
 
-  .button-row {
-    flex-direction: row;
-    padding-top: 20px;
+  .introduction-card button {
+    margin: 0 auto;
+    width: 50%;
+    font-size: 1.4em;
   }
+
+  .title-header {
+    font-size: 3em
+  }
+
+  .features {
+    flex-direction: row
+  }
+
+  .login-card {
+    max-width: 500px;
+  }
+
+  .practice-section .popup-content {
+    width: 75vw;
+    height: 80vh;
+  }
+
+  .reps {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  #video-container {
+  width: 150%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#video-container iframe {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
 }
