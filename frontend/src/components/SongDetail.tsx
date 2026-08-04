@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { createSection, getSections, getSessions, getSong, deleteSection } from '../api/client'
 import type { Section, Session, Song } from '../types'
-import { TiDelete } from 'react-icons/ti'
+import { updateMastery } from '../api/client'
 import Heatmap from './Heatmap'
 import { PopUp } from './PopUp'
 
@@ -165,22 +165,6 @@ export default function SongDetail() {
     }
   }
 
-  const checkMastery = (section: Section) => {
-    if (section.mastery === 'not_started') {
-      return (
-        <p className="mastery">Mastery: Not started</p>
-      )
-    } else if (section.mastery === 'performance_ready') {
-      return (
-        <p className="mastery">Mastery: Performance Ready</p>
-      )
-    } else {
-      return (
-        <p className="mastery">Mastery: {section.mastery}</p>
-      )
-    }
-  }
-
   return (
     <div id="song-detail-page">
       <h1 className="sections-header">Sections</h1>
@@ -211,8 +195,7 @@ export default function SongDetail() {
                 setSectionPopUp(true)
               }}
             >
-              <p>{section.name} — {secondsToTime(section.start_time)} to {secondsToTime(section.end_time)}</p>
-              {checkMastery(section)}
+              <h3>{section.name} — {secondsToTime(section.start_time)} to {secondsToTime(section.end_time)} - {section.mastery}</h3>
               <button
                 className="delete-button"
                 onClick={(e) => {
@@ -241,6 +224,20 @@ export default function SongDetail() {
                   <button onClick={startPractice} disabled={isPracticing}>
                     {isPracticing ? `${repsLeft} reps left` : 'Start Practice'}
                   </button>
+                  <select
+                    value={activeSection.mastery}
+                    onChange={async (e) => {
+                      const updated = await updateMastery(id!, activeSection.id, e.target.value)
+                      setSections(prev => prev.map(s => s.id === updated.id ? updated : s))
+                      setActiveSection(updated)
+                    }}
+                    >
+                      <option value="not_started">Not started</option>
+                      <option value="learning">Learning</option>
+                      <option value="drilling">Drilling</option>
+                      <option value="clean">Cleaning</option>
+                      <option value="performance_ready">Performance Ready</option>
+                    </select>
                 </div>
               </div>
             )}
