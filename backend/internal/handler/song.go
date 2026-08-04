@@ -67,3 +67,13 @@ func (h *SongHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(song)
 }
+
+func (h *SongHandler) Delete(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Path[len("/songs/"):]
+	err := h.store.DeleteSong(id)
+	if err != nil {
+		http.Error(w, "failed to delete song", http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
