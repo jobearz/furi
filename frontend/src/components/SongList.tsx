@@ -3,7 +3,6 @@ import { createSong, deleteSong, getSongs } from '../api/client'
 import type { Song } from '../types'
 import { useNavigate } from 'react-router-dom'
 import { PopUp } from './PopUp'
-import { UserAuthorizedCheck } from './UserAuthorizedCheck'
 import Header from './Header'
 
 export default function SongList() {
@@ -66,9 +65,8 @@ export default function SongList() {
   }
 
   return (
-    <UserAuthorizedCheck>
-      <Header></Header>
-      <div id='song-list-page'>
+      <div id='song-list-page'>      
+        <Header></Header>
         <h1 className='songs-header'>My Songs</h1>
         <button onClick={handleClick}>
           {showSongForm ? 'Close' : 'Add New Song'}
@@ -131,7 +129,6 @@ export default function SongList() {
             </PopUp>
         {error && <p>{error}</p>}
       </div>
-    </UserAuthorizedCheck>
   )
 }
 // navigate(`/songs/${song.id}`

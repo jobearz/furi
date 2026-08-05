@@ -72,7 +72,7 @@ input:focus {
 .site-header {
   background-color: var(--surface);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: sticky;
+  position: fixed;
   top: 0;
   z-index: 1000;
   width: 100vw;
@@ -285,16 +285,15 @@ a {
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  position: relative;
 }
 
 .songs-header,
 .sections-header {
   font-weight: 500;
-  margin-bottom: 20px;
   font-size: 2.5em;
   font-weight: 600;
   color: var(--accent);
+  margin-top: 60px;
   margin-bottom: 15px;
   text-align: center;
   text-shadow: 0 0 5px var(--accent-muted),
@@ -535,7 +534,8 @@ select {
   }
 
   .features {
-    flex-direction: row
+    flex-direction: row;
+    font-size: 1.3em;
   }
 
   .login-card,

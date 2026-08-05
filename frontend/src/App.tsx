@@ -4,6 +4,7 @@ import Login from './components/Login'
 import { Register } from './components/Register'
 import SongList from './components/SongList'
 import SongDetail from './components/SongDetail'
+import ProtectedPage from './components/ProtectedPage'
 
 function App() {
   return (
@@ -11,9 +12,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />        
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/songs" element={<SongList />} />
-        <Route path="/songs/:id" element={<SongDetail />} />      </Routes>
+
+        {/* protected pages only accessible if logged in */}
+        <Route element={<ProtectedPage />}>
+          <Route path="/register" element={<Register />} />
+          <Route path="/songs" element={<SongList />} />
+          <Route path="/songs/:id" element={<SongDetail />} />
+        </Route>    
+        </Routes>
     </BrowserRouter>
   )
 }
