@@ -2,8 +2,10 @@ package handler
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
+	"github.com/jobearz/furi/internal/middleware"
 	"github.com/jobearz/furi/internal/model"
 	"github.com/jobearz/furi/internal/store"
 )
@@ -17,6 +19,8 @@ func NewSongHandler(s store.SongStore) *SongHandler {
 }
 
 func (h *SongHandler) Create(w http.ResponseWriter, r *http.Request) {
+	userID := middleware.GetUserIDFromToken(r)
+
 	// check if request is POST method
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
@@ -24,6 +28,7 @@ func (h *SongHandler) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var song model.Song
+	song.UserID = userID
 	if err := json.NewDecoder(r.Body).Decode(&song); err != nil {
 		http.Error(w, "invalid request body", http.StatusBadRequest)
 		return
@@ -41,13 +46,15 @@ func (h *SongHandler) Create(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *SongHandler) GetAll(w http.ResponseWriter, r *http.Request) {
+	userID := middleware.GetUserIDFromToken(r)
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
-	songs, err := h.store.GetAll()
+	songs, err := h.store.GetAll(userID)
 	if err != nil {
+		log.Printf("GetAll error: %v", err)
 		http.Error(w, "failed to get songs", http.StatusInternalServerError)
 		return
 	}

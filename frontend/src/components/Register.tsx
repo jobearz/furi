@@ -1,6 +1,7 @@
 import React from "react"
 import { useForm, type SubmitHandler } from "react-hook-form"
 import { registerUser } from '../api/client'
+import { useNavigate } from "react-router-dom"
 
 interface RegisterFormData {
         username: string
@@ -10,6 +11,8 @@ interface RegisterFormData {
 }
 
 export const Register: React.FC = () => {
+    const navigate = useNavigate()
+
     const {
         register,
         handleSubmit,
@@ -21,6 +24,7 @@ export const Register: React.FC = () => {
         console.log("Registration Data:", data)
         try {
             registerUser(data.username, data.email, data.password)
+            navigate('/songs')
         } catch (err) {
             Error('failed to register')
         }

@@ -25,8 +25,8 @@ func (s *PostgresStore) Create(song model.Song) (model.Song, error) {
 	song.CreatedAt = time.Now()
 
 	_, err := s.db.Exec(
-		"INSERT INTO songs (id, title, artist, youtube_url, created_at) VALUES ($1, $2, $3, $4, $5)",
-		song.ID, song.Title, song.Artist, song.YoutubeURL, song.CreatedAt,
+		"INSERT INTO songs (id, user_id, title, artist, youtube_url, created_at) VALUES ($1, $2, $3, $4, $5, $6)",
+		song.ID, song.UserID, song.Title, song.Artist, song.YoutubeURL, song.CreatedAt,
 	)
 	if err != nil {
 		return model.Song{}, err
@@ -35,8 +35,8 @@ func (s *PostgresStore) Create(song model.Song) (model.Song, error) {
 	return song, nil
 }
 
-func (s *PostgresStore) GetAll() ([]model.Song, error) {
-	rows, err := s.db.Query("SELECT id, title, artist, youtube_url, created_at FROM songs")
+func (s *PostgresStore) GetAll(userID string) ([]model.Song, error) {
+	rows, err := s.db.Query("SELECT id, user_id, title, artist, youtube_url, created_at FROM songs WHERE user_id = $1", userID)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (s *PostgresStore) GetAll() ([]model.Song, error) {
 	var songs []model.Song
 	for rows.Next() {
 		var song model.Song
-		err := rows.Scan(&song.ID, &song.Title, &song.Artist, &song.YoutubeURL, &song.CreatedAt)
+		err := rows.Scan(&song.ID, &song.UserID, &song.Title, &song.Artist, &song.YoutubeURL, &song.CreatedAt)
 		if err != nil {
 			return nil, err
 		}

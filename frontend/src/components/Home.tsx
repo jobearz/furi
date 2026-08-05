@@ -6,7 +6,7 @@ export default function Home() {
 
   const checkIfLogin = async () => {
     // retrieve token
-    const token = localStorage.getItem('jwt_token');
+    const token = localStorage.getItem('token');
 
     // direct user to login if token does not exist
     if (!token) {

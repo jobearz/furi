@@ -38,13 +38,15 @@ func (s *MemoryStore) Create(song model.Song) (model.Song, error) {
 	return song, nil
 }
 
-func (s *MemoryStore) GetAll() ([]model.Song, error) {
+func (s *MemoryStore) GetAll(userID string) ([]model.Song, error) {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 
 	songs := make([]model.Song, 0, len(s.songs))
 	for _, song := range s.songs {
-		songs = append(songs, song)
+		if song.UserID == userID {
+			songs = append(songs, song)
+		}
 	}
 	return songs, nil
 }

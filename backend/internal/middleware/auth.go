@@ -31,3 +31,17 @@ func RequireAuth(next http.HandlerFunc) http.HandlerFunc {
 		next(w, r)
 	}
 }
+
+func GetUserIDFromToken(r *http.Request) string {
+	authHeader := r.Header.Get("Authorization")
+	tokenString := strings.TrimPrefix(authHeader, "Bearer ")
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		secret := config.JWTSecret()
+		return []byte(secret), nil
+	})
+	if err != nil || !token.Valid {
+		return ""
+	}
+	claims := token.Claims.(jwt.MapClaims)
+	return claims["user_id"].(string)
+}

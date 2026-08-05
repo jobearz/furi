@@ -12,10 +12,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />        
         <Route path="/login" element={<Login />} />
-
+        <Route path="/register" element={<Register />} />
         {/* protected pages only accessible if logged in */}
         <Route element={<ProtectedPage />}>
-          <Route path="/register" element={<Register />} />
+
           <Route path="/songs" element={<SongList />} />
           <Route path="/songs/:id" element={<SongDetail />} />
         </Route>    

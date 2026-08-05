@@ -9,7 +9,7 @@ func (m *MockStore) Create(song model.Song) (model.Song, error) {
 	return song, nil
 }
 
-func (m *MockStore) GetAll() ([]model.Song, error) {
+func (m *MockStore) GetAll(userID string) ([]model.Song, error) {
 	return []model.Song{{ID: "test-id", Title: "Supernova", Artist: "aespa"}}, nil
 }
 
