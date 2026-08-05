@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { login, register } from '../api/client'
+import { login } from '../api/client'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -19,11 +19,9 @@ export default function Login() {
 
   const handleRegister = async () => {
     try {
-      await register(email, password)
-      await login(email, password)
-      navigate('/')
+      navigate('/register')
     } catch (err) {
-      setError('failed to register')
+      setError('failed to open registration form')
     }
   } 
 

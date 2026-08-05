@@ -27,11 +27,11 @@ export async function login(email: string, password: string): Promise<string> {
     return data.token
 }
 
-export async function register(email: string, password: string): Promise<void> {
+export async function registerUser(username: string, email: string, password: string): Promise<void> {
     const response = await fetch(`${BASE_URL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ username, email, password })
     })
     if (!response.ok) {
         throw new Error('failed to register user')

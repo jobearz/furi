@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { createSection, getSections, getSessions, getSong, deleteSection } from '../api/client'
 import type { Section, Session, Song } from '../types'
 import { updateMastery } from '../api/client'
+import Header from './Header'
 import Heatmap from './Heatmap'
 import { PopUp } from './PopUp'
 
@@ -167,6 +168,7 @@ export default function SongDetail() {
 
   return (
     <div id="song-detail-page">
+      <Header></Header>
       <h1 className="sections-header">Sections</h1>
       <button onClick={() => setShowSectionForm(!showSectionForm)}>
         {showSectionForm ? 'Close' : 'Add New Section'}

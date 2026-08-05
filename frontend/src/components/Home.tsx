@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import Header from "./Header";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ export default function Home() {
 
   return (
     <div className="home-container">
+      <Header></Header>
       <div className="introduction-card">
         <h1 className="title-header">
           Master any choreography with <span className="app-name">Furi</span>

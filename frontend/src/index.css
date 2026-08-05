@@ -69,6 +69,39 @@ input:focus {
   box-shadow: 0 0 25px var(--accent-muted);
 }
 
+.site-header {
+  background-color: var(--surface);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100vw;
+  margin-bottom: 40px;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-app-name {
+  font-size: 2em;
+}
+
+.header-app-name:hover {
+  text-decoration: none;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 20px;
+  font-size: .8em;
+}
+
 .home-container {
   min-height: 100vh;
   display: flex;
@@ -92,6 +125,7 @@ input:focus {
 
 .introduction-card,
 .login-card,
+.register-form,
 .popup-content,
 .close-popup-button {
   animation-name: fadeUp;
@@ -161,14 +195,16 @@ input:focus {
 
 }
 
-.login-container {
+.login-container,
+.register-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.login-card {
+.login-card,
+.register-form {
   width: 80vw;
   padding: 50px 40px 50px 40px;
   background-color: var(--surface);
@@ -178,7 +214,8 @@ input:focus {
     rgba(0, 0, 0, 0.4) 0px -2px 6px 0px inset;
 }
 
-.login-title {
+.login-title,
+.register-title {
   font-size: 2.5em;
   font-weight: 600;
   color: var(--accent);
@@ -209,10 +246,6 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
 .button-row {
   display: flex;
   flex-direction: column;
@@ -232,6 +265,18 @@ a:hover {
 .error {
   color: #FF6B6B;
   font-size: 13px;
+}
+
+.registration-input {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+
+.submit-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  font-size: 1.2em;
 }
 
 #song-list-page,
@@ -438,6 +483,12 @@ select {
 }
 
 @media screen and (min-width: 768px) and (max-width: 1239px) {
+
+    .login-card,
+    .register-form {
+    max-width: 500px;
+  }
+
   .practice-section .popup-content {
     min-width: 80vw;
     height: 80vh;
@@ -487,7 +538,8 @@ select {
     flex-direction: row
   }
 
-  .login-card {
+  .login-card,
+  .register-form {
     max-width: 500px;
   }
 
