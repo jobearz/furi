@@ -20,7 +20,7 @@ func NewSongHandler(s store.SongStore) *SongHandler {
 
 func (h *SongHandler) Create(w http.ResponseWriter, r *http.Request) {
 	userID := middleware.GetUserIDFromToken(r)
-
+	log.Printf("userID from token: '%s'", userID)
 	// check if request is POST method
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
@@ -54,7 +54,6 @@ func (h *SongHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 
 	songs, err := h.store.GetAll(userID)
 	if err != nil {
-		log.Printf("GetAll error: %v", err)
 		http.Error(w, "failed to get songs", http.StatusInternalServerError)
 		return
 	}

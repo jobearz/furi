@@ -520,7 +520,7 @@ select {
 
 @media screen and (min-width: 1240px) {
   .introduction-card {
-    width: 85vw;
+    width: 50vw;
   }
 
   .introduction-card button {
@@ -530,11 +530,10 @@ select {
   }
 
   .title-header {
-    font-size: 3em
+    font-size: 3em;
   }
 
   .features {
-    flex-direction: row;
     font-size: 1.3em;
   }
 

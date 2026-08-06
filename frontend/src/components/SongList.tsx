@@ -118,8 +118,7 @@ export default function SongList() {
                     Practice
                   </button>
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
+                    onClick={() => {
                       handleDelete(activeSong!);
                     }}>
                     Delete Song
@@ -131,4 +130,3 @@ export default function SongList() {
       </div>
   )
 }
-// navigate(`/songs/${song.id}`
