@@ -471,10 +471,85 @@ a {
 
 select {
   border-radius: 20px;
-  border: none;
+  border: 2px solid var(--accent);
   padding: 10px;
   background-color: var(--bg);
   color: var(--text);
+}
+
+select:hover,
+select:focus {
+  background: var(--accent)
+}
+
+select::picker-icon {
+  color: var(--text-secondary);
+  transition: 0.4s rotate;
+}
+
+select:open::picker-icon {
+  rotate: 180deg;
+}
+
+::picker(select) {
+  border: none;
+}
+
+option {
+  gap: 15px;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+  padding: 8px;
+  transition: 0.4s;
+}
+
+option:first-of-type {
+  border-radius: 8px 8px 0 0;
+}
+
+option:last-of-type {
+  border-radius: 0 0 8px 8px;
+}
+
+::picker(select) {
+  border-radius: 8px;
+}
+
+option:not(option:last-of-type) {
+  border-bottom: none;
+}
+
+option:nth-of-type(odd) {
+  background: var(--accent-muted);
+}
+
+option:hover,
+option:focus {
+  background: var(--accent)
+}
+
+option:checked {
+  font-weight: bold;
+}
+
+::picker(select) {
+  opacity: 0;
+  transition: all 0.4s allow-discrete;
+}
+
+:open::picker(select) {
+  opacity: 1;
+}
+
+@starting-style {
+  :open::picker(select) {
+    opacity: 0;
+  }
+}
+
+::picker(select) {
+  top: calc(anchor(bottom) + 1px);
+  left: anchor(10%);
 }
 
 .heatmap {
