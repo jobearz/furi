@@ -57,7 +57,17 @@ export default function SongDetail() {
   useEffect(() => {
     if (!activeSection || !song) return
 
-    const videoId = song.url.match(/[?&]v=([^&]+)/)?.[1] ?? ''
+    const getVideoId = (url: string) => {
+      if (!url) return ''
+      const shortMatch = url.match(/youtu\.be\/([^?&]+)/)
+      if (shortMatch) return shortMatch[1]
+      const longMatch = url.match(/[?&]v=([^&]+)/)
+      if (longMatch) return longMatch[1]
+      const embedMatch = url.match(/embed\/([^?&]+)/)
+      if (embedMatch) return embedMatch[1]
+      return ''
+    }
+    const videoId = getVideoId(song.url)
 
     const createPlayer = () => {
       if (playerRef.current) {
@@ -233,13 +243,13 @@ export default function SongDetail() {
                       setSections(prev => prev.map(s => s.id === updated.id ? updated : s))
                       setActiveSection(updated)
                     }}
-                    >
-                      <option value="not_started">Not started</option>
-                      <option value="learning">Learning</option>
-                      <option value="drilling">Drilling</option>
-                      <option value="clean">Cleaning</option>
-                      <option value="performance_ready">Performance Ready</option>
-                    </select>
+                  >
+                    <option value="not_started">Not started</option>
+                    <option value="learning">Learning</option>
+                    <option value="drilling">Drilling</option>
+                    <option value="clean">Cleaning</option>
+                    <option value="performance_ready">Performance Ready</option>
+                  </select>
                 </div>
               </div>
             )}

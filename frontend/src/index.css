@@ -542,6 +542,10 @@ select {
     max-width: 500px;
   }
 
+  .song-list {
+    width: 50%;
+  }
+
   .practice-section .popup-content {
     min-width: 90vw;
     height: 80vh;
