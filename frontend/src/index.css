@@ -471,7 +471,7 @@ a {
 
 select {
   border-radius: 20px;
-  border: 2px solid var(--accent);
+  border: 1px solid var(--accent-muted);
   padding: 10px;
   background-color: var(--bg);
   color: var(--text);
@@ -479,7 +479,7 @@ select {
 
 select:hover,
 select:focus {
-  background: var(--accent)
+  background: var(--accent-muted)
 }
 
 select::picker-icon {
@@ -498,7 +498,7 @@ select:open::picker-icon {
 option {
   gap: 15px;
   background: var(--bg);
-  border: 2px solid var(--accent);
+  border: 2px solid var(--bg);
   padding: 8px;
   transition: 0.4s;
 }
@@ -517,10 +517,6 @@ option:last-of-type {
 
 option:not(option:last-of-type) {
   border-bottom: none;
-}
-
-option:nth-of-type(odd) {
-  background: var(--accent-muted);
 }
 
 option:hover,
