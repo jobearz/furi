@@ -20,7 +20,6 @@ func NewSongHandler(s store.SongStore) *SongHandler {
 
 func (h *SongHandler) Create(w http.ResponseWriter, r *http.Request) {
 	userID := middleware.GetUserIDFromToken(r)
-	log.Printf("userID from token: '%s'", userID)
 	// check if request is POST method
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
@@ -76,10 +75,8 @@ func (h *SongHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 
 func (h *SongHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Path[len("/songs/"):]
-	log.Printf("deleting song id: '%s'", id)
 	err := h.store.DeleteSong(id)
 	if err != nil {
-		log.Printf("delete error: %v", err)
 		http.Error(w, "failed to delete song", http.StatusInternalServerError)
 		return
 	}
