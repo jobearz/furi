@@ -1,6 +1,6 @@
 import type { Song, Section, Session } from "../types"
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
+const BASE_URL = import.meta.env.VITE_API_URL ?? 'https://furidance.app/api'
 
 function getToken(): string {
     return localStorage.getItem('token') ?? ''

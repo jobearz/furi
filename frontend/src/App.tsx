@@ -15,7 +15,7 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         {/* protected pages only accessible if logged in */}
-        <Route element={<ProtectedPage />}>
+        <Route path="/*" element={<ProtectedPage />}>
           <Route path="/songs" element={<SongList />} />
           <Route path="/songs/:id" element={<SongDetail />} />
         </Route>    
