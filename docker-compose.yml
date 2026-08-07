@@ -28,7 +28,7 @@ services:
       db:
         condition: service_healthy
 
-frontend:
+  frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
