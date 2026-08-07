@@ -71,7 +71,7 @@ export default function SongDetail() {
           fs: 1,
           controls: 1,
           rel: 0,
-          origin: window.location.origin
+          origin: 'https://furidance.app'
         },
       })
     }
