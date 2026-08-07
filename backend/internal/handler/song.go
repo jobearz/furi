@@ -76,8 +76,10 @@ func (h *SongHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 
 func (h *SongHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Path[len("/songs/"):]
+	log.Printf("deleting song id: '%s'", id)
 	err := h.store.DeleteSong(id)
 	if err != nil {
+		log.Printf("delete error: %v", err)
 		http.Error(w, "failed to delete song", http.StatusInternalServerError)
 		return
 	}
