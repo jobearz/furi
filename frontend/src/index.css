@@ -469,6 +469,11 @@ a {
   margin-bottom: 10px;
 }
 
+select,
+::picker(select) {
+  appearance: base-select;
+}
+
 select {
   border-radius: 20px;
   border: 1px solid var(--accent-muted);
@@ -519,7 +524,6 @@ option:not(option:last-of-type) {
   border-bottom: none;
 }
 
-option:hover,
 option:focus {
   background: var(--accent)
 }
