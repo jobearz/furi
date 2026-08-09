@@ -16,7 +16,9 @@ export const PopUp: React.FC<PopUpProps> = ({showPopUp, closePopUp, children}) =
                 <button onClick={closePopUp} className="close-popup-button">
                     Close
                 </button>
-                <div>{children}</div>
+                <div>
+                    {children}
+                </div>
             </div>
         </div>
     )

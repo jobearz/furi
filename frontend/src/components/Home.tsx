@@ -30,7 +30,6 @@ export default function Home() {
           Start Practicing
         </button>
         <div className="features">
-          <div className="feature-tab">Visually track your progress</div>
           <div className="feature-tab">Drill dances by section</div>
           <div className="feature-tab">Track your mastery of dances</div>
         </div>

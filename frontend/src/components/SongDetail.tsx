@@ -256,9 +256,9 @@ export default function SongDetail() {
           </div>
         </PopUp>
       </div>
-      <div className='heatmap'>
+      {/* <div className='heatmap'>
         <Heatmap sessions={sessions} />
-      </div>
+      </div> */}
       {error && <p>{error}</p>}
     </div>
   )
