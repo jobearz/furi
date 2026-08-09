@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
-import { createSection, getSections, getSessions, getSong, deleteSection } from '../api/client'
+import { createSection, getSections, createSession, getSessions, getSong, deleteSection } from '../api/client'
 import type { Section, Session, Song } from '../types'
 import { updateMastery } from '../api/client'
 import Header from './Header'
@@ -140,6 +140,7 @@ export default function SongDetail() {
             clearInterval(intervalRef.current)
             setIsPracticing(false)
             playerRef.current.pauseVideo()
+            handleLogSession()
             const currentIndex = sections.findIndex(s => s.id === activeSection.id)
             if (currentIndex < sections.length - 1) {
               setActiveSection(sections[currentIndex + 1])
@@ -172,7 +173,17 @@ export default function SongDetail() {
       await deleteSection(id!, deletedSection.id)
       setSections(sections.filter(s => s.id !== deletedSection.id))
     } catch (error) {
-      console.error('Failed to delete section:', error)
+      console.error('failed to delete section:', error)
+    }
+  }
+
+  const handleLogSession = async () => {
+    if (!id || !activeSection) return
+    try {
+      const newSession = await createSession(id, reps, [activeSection.id], '')
+      setSessions(prev => [...prev, newSession])
+    } catch (err) {
+      console.error('failed to log session')
     }
   }
 
@@ -256,9 +267,9 @@ export default function SongDetail() {
           </div>
         </PopUp>
       </div>
-      {/* <div className='heatmap'>
+      <div className='heatmap'>
         <Heatmap sessions={sessions} />
-      </div> */}
+      </div>
       {error && <p>{error}</p>}
     </div>
   )

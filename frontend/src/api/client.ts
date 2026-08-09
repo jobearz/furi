@@ -108,6 +108,23 @@ export async function getSessions(songId: string): Promise<Session[]> {
     return response.json()
 }
 
+export async function createSession(songId: string, duration: number, sectionIds: string[], notes: string): Promise<Session> {
+    const response = await fetch(`${BASE_URL}/songs/${songId}/sessions`, {
+        method: 'POST',
+        headers: authHeaders(),
+        body: JSON.stringify({
+            song_id: songId,
+            duration,
+            section_ids: sectionIds,
+            notes
+        })
+    })
+    if (!response.ok) {
+        throw new Error('failed to create session')
+    }
+    return response.json()
+}
+
 export async function deleteSong(id: string): Promise<void> {
     const response = await fetch(`${BASE_URL}/songs/${id}`, {
         method: 'DELETE',
