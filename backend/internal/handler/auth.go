@@ -2,7 +2,6 @@ package handler
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 	"time"
 
@@ -60,7 +59,6 @@ func (h *AuthorizationHandler) Register(w http.ResponseWriter, r *http.Request) 
 
 	newUser, err := h.store.CreateUser(user)
 	if err != nil {
-		 ("CreateUser error: %v", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -76,7 +74,6 @@ func (h *AuthorizationHandler) Register(w http.ResponseWriter, r *http.Request) 
 
 func (h *AuthorizationHandler) GetUser(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Path[len("/users/"):]
-	 ("GetUser called with id: '%s'", id)
 	user, err := h.store.GetUserByID(id)
 	if err != nil {
 		http.Error(w, "user not found", http.StatusNotFound)
@@ -100,14 +97,11 @@ func (h *AuthorizationHandler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// get user by email
-	 ("looking up email: '%s'", UserRequestBody.Email)
 	user, err := h.store.GetUserByEmail(UserRequestBody.Email)
 	if err != nil {
-		 ("GetUserByEmail error: %v", err)
 		http.Error(w, "user not found", http.StatusUnauthorized)
 		return
 	}
-	 ("found user: %s", user.Email)
 
 	// compare password with hash
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(UserRequestBody.Password)); err != nil {
