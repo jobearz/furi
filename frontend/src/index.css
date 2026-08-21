@@ -60,12 +60,13 @@ input {
   font-size: 1em;
   width: 100%;
   outline: none;
+  transition: 0.3s;
+  transition-property: border-color box-shadow;
 }
 
 input:hover,
 input:focus {
-  transition: 0.3s;
-  transition-property: border-color box-shadow;
+
   border-color: var(--accent-muted);
   box-shadow: 0 0 25px var(--accent-muted);
 }

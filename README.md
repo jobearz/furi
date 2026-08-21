@@ -77,6 +77,8 @@ If you need help:
 ## Roadmap
 - [x] User profile pages
 - [ ] Shareable song libraries between users
+- [ ] Daily, Weekly, Monthly Goals
+- [ ] Practice Streaks
 - [ ] Thumbnail previews on song list page
 - [ ] Session notes and self-rating between practices
 

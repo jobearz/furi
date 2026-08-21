@@ -20,13 +20,13 @@ export const Register: React.FC = () => {
         formState: { errors },
     } = useForm<RegisterFormData>()
 
-    const onSubmit: SubmitHandler<RegisterFormData> = (data) => {
+    const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
         console.log("Registration Data:", data)
         try {
-            registerUser(data.username, data.email, data.password)
+            await registerUser(data.username, data.email, data.password)
             navigate('/songs')
         } catch (err) {
-            Error('failed to register')
+            console.error('failed to register')
         }
     }
 
