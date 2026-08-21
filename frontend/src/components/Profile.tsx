@@ -16,7 +16,7 @@ export default function Profile() {
         }
     }, [id])
 
-    const handleEdit = (e) => {
+    const handleEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
         setEditedUser((prev) => ({ ...prev, [name]: value }))
     }
