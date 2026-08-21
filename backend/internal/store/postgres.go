@@ -162,8 +162,8 @@ func (s *PostgresStore) CreateUser(user model.User) (model.User, error) {
 	user.CreatedAt = time.Now()
 
 	_, err := s.db.Exec(
-		"INSERT INTO users (id, email, password, created_at) VALUES ($1, $2, $3, $4)",
-		user.ID, user.Email, user.Password, user.CreatedAt,
+		"INSERT INTO users (id, username, email, password, created_at) VALUES ($1, $2, $3, $4, $5)",
+		user.ID, user.Username, user.Email, user.Password, user.CreatedAt,
 	)
 	if err != nil {
 		return model.User{}, fmt.Errorf("insert failed: %w", err)
@@ -173,9 +173,19 @@ func (s *PostgresStore) CreateUser(user model.User) (model.User, error) {
 }
 
 func (s *PostgresStore) GetUserByEmail(email string) (model.User, error) {
-	row := s.db.QueryRow("SELECT id, email, password, created_at FROM users WHERE email = $1", email)
+	row := s.db.QueryRow("SELECT id, username, email, password, created_at FROM users WHERE email = $1", email)
 	var user model.User
-	err := row.Scan(&user.ID, &user.Email, &user.Password, &user.CreatedAt)
+	err := row.Scan(&user.ID, &user.Username, &user.Email, &user.Password, &user.CreatedAt)
+	if err != nil {
+		return model.User{}, err
+	}
+	return user, nil
+}
+
+func (s *PostgresStore) GetUserByID(id string) (model.User, error) {
+	row := s.db.QueryRow("SELECT id, username, email, created_at FROM users WHERE id = $1", id)
+	var user model.User
+	err := row.Scan(&user.ID, &user.Username, &user.Email, &user.CreatedAt)
 	if err != nil {
 		return model.User{}, err
 	}
