@@ -2,7 +2,6 @@ package handler
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/jobearz/furi/internal/middleware"
@@ -53,7 +52,6 @@ func (h *SongHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 
 	songs, err := h.store.GetAll(userID)
 	if err != nil {
-		 ("GetAll error: %v", err)
 		http.Error(w, "failed to get songs", http.StatusInternalServerError)
 		return
 	}
