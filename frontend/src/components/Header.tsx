@@ -63,7 +63,7 @@ export default function Header() {
 
             {isLoggedIn && (
                 <div className="header-buttons">
-                    <p>{user?.username}</p>
+                    <p className="header-username">{user?.username}</p>
                     <button onClick={handleProfileClick}>
                         Profile
                     </button>

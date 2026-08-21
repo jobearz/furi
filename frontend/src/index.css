@@ -97,8 +97,14 @@ input:focus {
   text-decoration: none;
 }
 
+.header-username {
+  font-size: 1.3em;
+
+}
+
 .header-buttons {
   display: flex;
+  align-items: center;
   gap: 20px;
   font-size: .8em;
 }
@@ -127,6 +133,7 @@ input:focus {
 .introduction-card,
 .login-card,
 .register-form,
+.profile-card,
 .popup-content,
 .close-popup-button {
   animation-name: fadeUp;
@@ -198,7 +205,8 @@ input:focus {
 }
 
 .login-container,
-.register-container {
+.register-container,
+.profile-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -206,7 +214,8 @@ input:focus {
 }
 
 .login-card,
-.register-form {
+.register-form,
+.profile-card {
   width: 80vw;
   padding: 50px 40px 50px 40px;
   background-color: var(--surface);
@@ -543,6 +552,19 @@ option:checked {
   font-weight: bold;
 }
 
+.profile-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 
 
 .heatmap {
@@ -552,7 +574,8 @@ option:checked {
 @media screen and (min-width: 768px) and (max-width: 1239px) {
 
     .login-card,
-    .register-form {
+    .register-form,
+    .profile-card {
     max-width: 500px;
   }
 
@@ -606,7 +629,8 @@ option:checked {
   }
 
   .login-card,
-  .register-form {
+  .register-form,
+  .profile-card {
     max-width: 500px;
   }
 

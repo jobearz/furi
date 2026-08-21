@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import type { User } from "../types"
 import { getUserData } from "../api/client"
+import Header from "./Header"
 
 export default function Profile() {
     const { id } = useParams()
@@ -33,6 +34,7 @@ export default function Profile() {
 
     return (
         <div className="profile-container">
+        <Header></Header>
             <div className="profile-card">
                 {isEditing ? (
                     <div className="profile-form">
