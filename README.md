@@ -75,7 +75,7 @@ If you need help:
 - [Request a feature](https://github.com/jobearz/furi/issues/new?template=feature_request.md)
 
 ## Roadmap
-- [ ] User profile pages
+- [x] User profile pages
 - [ ] Shareable song libraries between users
 - [ ] Thumbnail previews on song list page
 - [ ] Session notes and self-rating between practices
