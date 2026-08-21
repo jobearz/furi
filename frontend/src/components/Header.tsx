@@ -1,14 +1,21 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import type { User } from "../types";
+import { getUserData } from "../api/client";
 
 export default function Header() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [user, setUser] = useState<Partial<User> | null>(null)
     const [error, setError] = useState('')
     const navigate = useNavigate()
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token')
+        const userId = localStorage.getItem('user_id')
         setIsLoggedIn(!!token)
+        if (userId) {
+            getUserData(userId).then(setUser)
+        }
     }, [])
 
     const handleLogout = () => {
@@ -32,6 +39,14 @@ export default function Header() {
             setError('unable to navigate to registration page')
         }
     }
+
+    const handleProfileClick = async () => {
+        try {
+            navigate(`/users/${user?.id}`)
+        } catch (err) {
+            setError('unable to navigate to profile page')
+        }
+    }
     return (
         <header className="site-header">
             <div className="header-container">
@@ -47,9 +62,15 @@ export default function Header() {
             )}
 
             {isLoggedIn && (
-                <button onClick={handleLogout}>
-                    Log Out
-                </button>
+                <div className="header-buttons">
+                    <p>{user?.username}</p>
+                    <button onClick={handleProfileClick}>
+                        Profile
+                    </button>
+                    <button onClick={handleLogout}>
+                        Log Out
+                    </button>
+                </div>
             )}
             {error && <p>{error}</p>}
             </div>

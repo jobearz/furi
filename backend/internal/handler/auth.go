@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"time"
 
@@ -22,6 +23,7 @@ func NewAuthorizationHandler(s store.SongStore) *AuthorizationHandler {
 
 func (h *AuthorizationHandler) Register(w http.ResponseWriter, r *http.Request) {
 	var UserRequestBody struct {
+		Username string `json:"username"`
 		Email    string `json:"email"`
 		Password string `json:"password"`
 	}
@@ -32,6 +34,7 @@ func (h *AuthorizationHandler) Register(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
+	username := UserRequestBody.Username
 	email := UserRequestBody.Email
 	password := UserRequestBody.Password
 
@@ -50,15 +53,18 @@ func (h *AuthorizationHandler) Register(w http.ResponseWriter, r *http.Request) 
 
 	// create new user with the hashed password
 	user := model.User{
+		Username: username,
 		Email:    email,
 		Password: hashedPassword,
 	}
 
 	newUser, err := h.store.CreateUser(user)
 	if err != nil {
+		 ("CreateUser error: %v", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	newUser.Username = username
 	newUser.Email = email
 	newUser.Password = hashedPassword
 
@@ -66,6 +72,19 @@ func (h *AuthorizationHandler) Register(w http.ResponseWriter, r *http.Request) 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(newUser)
+}
+
+func (h *AuthorizationHandler) GetUser(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Path[len("/users/"):]
+	 ("GetUser called with id: '%s'", id)
+	user, err := h.store.GetUserByID(id)
+	if err != nil {
+		http.Error(w, "user not found", http.StatusNotFound)
+		return
+	}
+	user.Password = ""
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(user)
 }
 
 func (h *AuthorizationHandler) Login(w http.ResponseWriter, r *http.Request) {
@@ -81,11 +100,15 @@ func (h *AuthorizationHandler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// get user by email
+	 ("looking up email: '%s'", UserRequestBody.Email)
 	user, err := h.store.GetUserByEmail(UserRequestBody.Email)
 	if err != nil {
+		 ("GetUserByEmail error: %v", err)
 		http.Error(w, "user not found", http.StatusUnauthorized)
 		return
 	}
+	 ("found user: %s", user.Email)
+
 	// compare password with hash
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(UserRequestBody.Password)); err != nil {
 		http.Error(w, "password does not match hashed password", http.StatusUnauthorized)
@@ -104,5 +127,8 @@ func (h *AuthorizationHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{"token": tokenString})
+	json.NewEncoder(w).Encode(map[string]string{
+		"token":   tokenString,
+		"user_id": user.ID,
+	})
 }

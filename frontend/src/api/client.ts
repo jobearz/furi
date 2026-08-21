@@ -1,6 +1,6 @@
-import type { Song, Section, Session } from "../types"
+import type { Song, Section, Session, User } from "../types"
 
-const BASE_URL = import.meta.env.VITE_API_URL ?? 'https://furidance.app/api'
+const BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8080'
 
 function getToken(): string {
     return localStorage.getItem('token') ?? ''
@@ -23,7 +23,9 @@ export async function login(email: string, password: string): Promise<string> {
         throw new Error('failed to login user')
     }
     const data = await response.json()
+    console.log('login response:', data)
     localStorage.setItem('token', data.token)
+    localStorage.setItem('user_id', data.user_id )
     return data.token
 }
 
@@ -36,6 +38,16 @@ export async function registerUser(username: string, email: string, password: st
     if (!response.ok) {
         throw new Error('failed to register user')
     }
+}
+
+export async function getUserData(username: string): Promise<User> {
+    const response = await fetch(`${BASE_URL}/users/${username}`, {
+        headers: authHeaders()
+    })
+    if (!response.ok) {
+        throw new Error('failed to fetch user info')
+    }
+    return response.json()
 }
 
 export async function getSongs(): Promise<Song[]> {

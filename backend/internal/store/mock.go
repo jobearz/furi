@@ -52,3 +52,7 @@ func (m *MockStore) CreateUser(user model.User) (model.User, error) {
 func (m *MockStore) GetUserByEmail(email string) (model.User, error) {
 	return model.User{ID: "test-id", Email: email}, nil
 }
+
+func (m *MockStore) GetUserByID(id string) (model.User, error) {
+	return model.User{ID: id, Email: "test@test.com"}, nil
+}
